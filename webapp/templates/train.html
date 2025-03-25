@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Train Model{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-lightning-charge text-warning"></i> Train PlayMeow Model</h2>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Training Configuration</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/train">
+                    <div class="mb-3">
+                        <label for="data_path" class="form-label">Training Data Path</label>
+                        <input type="text" class="form-control" id="data_path" name="data_path" 
+                               value="playmeow/data/sample_data.csv" required>
+                        <div class="form-text">Path to CSV file with training data</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="model_path" class="form-label">Model Save Path</label>
+                        <input type="text" class="form-control" id="model_path" name="model_path" 
+                               value="playmeow/models/playmeow_model.h5" required>
+                        <div class="form-text">Where to save the trained model</div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="batch_size" class="form-label">Batch Size</label>
+                            <input type="number" class="form-control" id="batch_size" name="batch_size" 
+                                   value="32" min="1" max="256" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="epochs" class="form-label">Max Epochs</label>
+                            <input type="number" class="form-control" id="epochs" name="epochs" 
+                                   value="100" min="1" max="1000" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="cross_val" name="cross_val" checked>
+                        <label class="form-check-label" for="cross_val">Use Cross-Validation</label>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="train_rl" name="train_rl">
+                        <label class="form-check-label" for="train_rl">Continue with Reinforcement Learning</label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rl_episodes" class="form-label">RL Episodes</label>
+                        <input type="number" class="form-control" id="rl_episodes" name="rl_episodes" 
+                               value="100" min="1" max="1000">
+                        <div class="form-text">Number of episodes for reinforcement learning</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" {% if training_running %}disabled{% endif %}>
+                            <i class="bi bi-lightning-charge"></i> Start Training
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Training Status</h5>
+                <span id="status-badge" class="badge bg-secondary">Not Started</span>
+            </div>
+            <div class="card-body">
+                <div id="progress-container" class="mb-4" style="display: none;">
+                    <label id="progress-label" class="form-label">Progress</label>
+                    <div class="progress mb-3">
+                        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div id="metrics-container" class="mb-4" style="display: none;">
+                    <h6>Evaluation Metrics</h6>
+                    <div id="metrics-content" class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="metrics-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="loss-chart-container" class="mb-4" style="display: none;">
+                    <h6>Training Loss</h6>
+                    <div id="loss-chart" style="height: 300px;"></div>
+                </div>
+                
+                <div id="rewards-chart-container" class="mb-4" style="display: none;">
+                    <h6>Reinforcement Learning Rewards</h6>
+                    <div id="rewards-chart" style="height: 300px;"></div>
+                </div>
+                
+                <div id="error-container" class="alert alert-danger" style="display: none;">
+                    <strong>Error:</strong> <span id="error-message"></span>
+                </div>
+                
+                <div id="no-training" class="text-center py-4">
+                    <p class="text-muted mb-0">No training has been started yet. Configure and start training using the form.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Enable/disable RL episodes input based on checkbox
+    document.getElementById('train_rl').addEventListener('change', function() {
+        document.getElementById('rl_episodes').disabled = !this.checked;
+    });
+    
+    // Initial state
+    document.getElementById('rl_episodes').disabled = !document.getElementById('train_rl').checked;
+    
+    // Polling for training status
+    let trainingInterval;
+    
+    function updateTrainingStatus() {
+        fetch('/training/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'not_started') {
+                    document.getElementById('no-training').style.display = 'block';
+                    document.getElementById('status-badge').textContent = 'Not Started';
+                    document.getElementById('status-badge').className = 'badge bg-secondary';
+                    return;
+                }
+                
+                document.getElementById('no-training').style.display = 'none';
+                
+                // Update status badge
+                document.getElementById('status-badge').textContent = 
+                    data.status.charAt(0).toUpperCase() + data.status.slice(1).replace('_', ' ');
+                
+                if (data.status === 'completed') {
+                    document.getElementById('status-badge').className = 'badge bg-success';
+                    // Stop polling if completed
+                    clearInterval(trainingInterval);
+                } else if (data.status === 'error') {
+                    document.getElementById('status-badge').className = 'badge bg-danger';
+                    document.getElementById('error-container').style.display = 'block';
+                    document.getElementById('error-message').textContent = data.error || 'Unknown error occurred';
+                    // Stop polling on error
+                    clearInterval(trainingInterval);
+                } else {
+                    document.getElementById('status-badge').className = 'badge bg-primary';
+                }
+                
+                // Show progress if available
+                if ('progress' in data) {
+                    document.getElementById('progress-container').style.display = 'block';
+                    document.getElementById('progress-bar').style.width = data.progress + '%';
+                    document.getElementById('progress-bar').textContent = data.progress + '%';
+                }
+                
+                // Show metrics if available
+                if (data.metrics && Object.keys(data.metrics).length > 0) {
+                    document.getElementById('metrics-container').style.display = 'block';
+                    const metricsBody = document.getElementById('metrics-body');
+                    metricsBody.innerHTML = '';
+                    
+                    for (const [key, value] of Object.entries(data.metrics)) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${key}</td><td>${value.toFixed(4)}</td>`;
+                        metricsBody.appendChild(row);
+                    }
+                }
+                
+                // Show loss chart if history is available
+                if (data.history && data.history.length > 0) {
+                    document.getElementById('loss-chart-container').style.display = 'block';
+                    
+                    // Fetch and render loss chart
+                    fetch('/plot/training')
+                        .then(response => response.json())
+                        .then(chartData => {
+                            const chart = JSON.parse(chartData);
+                            Plotly.newPlot('loss-chart', chart.data, chart.layout);
+                        })
+                        .catch(error => console.error('Error loading loss chart:', error));
+                }
+                
+                // Show rewards chart if available
+                if (data.rewards && data.rewards.length > 0) {
+                    document.getElementById('rewards-chart-container').style.display = 'block';
+                    
+                    // Fetch and render rewards chart
+                    fetch('/plot/rewards')
+                        .then(response => response.json())
+                        .then(chartData => {
+                            const chart = JSON.parse(chartData);
+                            Plotly.newPlot('rewards-chart', chart.data, chart.layout);
+                        })
+                        .catch(error => console.error('Error loading rewards chart:', error));
+                }
+            })
+            .catch(error => console.error('Error fetching training status:', error));
+    }
+    
+    // Start polling when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTrainingStatus();
+        trainingInterval = setInterval(updateTrainingStatus, 3000);
+    });
+</script>
+{% endblock %}

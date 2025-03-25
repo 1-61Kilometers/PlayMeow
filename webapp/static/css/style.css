@@ -1,0 +1,58 @@
+/* Custom styles for PlayMeow web interface */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand i {
+    font-size: 1.5rem;
+}
+
+.card {
+    transition: transform 0.2s;
+    border-radius: 0.5rem;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.display-6 {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tabs .nav-link.active {
+    border: none;
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}
+
+.nav-tabs .nav-link:hover {
+    border-bottom: 3px solid #dee2e6;
+}
+
+.list-group-item-action.active {
+    background-color: #f8f9fa;
+    color: #007bff;
+    border-left: 4px solid #007bff;
+    padding-left: calc(1rem - 4px);
+}
+
+/* Custom styles for status badges */
+.badge {
+    font-weight: 400;
+    padding: 0.4em 0.6em;
+}
+
+/* Footer styling */
+.footer {
+    margin-top: 2rem;
+}

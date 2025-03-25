@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Simulation{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-play-circle text-success"></i> PlayMeow Simulation</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Simulation Configuration</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/simulate">
+                    <div class="mb-3">
+                        <label for="model_path" class="form-label">Model Path</label>
+                        <input type="text" class="form-control" id="model_path" name="model_path" 
+                               value="playmeow/models/playmeow_model.h5" required>
+                        <div class="form-text">Path to the trained model file</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="episodes" class="form-label">Number of Episodes</label>
+                        <input type="number" class="form-control" id="episodes" name="episodes" 
+                               value="10" min="1" max="100" required>
+                        <div class="form-text">How many simulation episodes to run</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" {% if simulation_running %}disabled{% endif %}>
+                            <i class="bi bi-play-circle"></i> Start Simulation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Simulation Results</h5>
+            </div>
+            <div class="card-body">
+                <div id="results-list" style="max-height: 400px; overflow-y: auto;">
+                    <div id="no-results" class="text-center py-3">
+                        <p class="text-muted mb-0">No simulation results yet</p>
+                    </div>
+                    <div id="results-content" class="list-group list-group-flush">
+                        <!-- Results will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Live Simulation</h5>
+                <span id="status-badge" class="badge bg-secondary">Not Running</span>
+            </div>
+            <div class="card-body">
+                <div id="simulation-stats" class="row text-center mb-4" style="display: none;">
+                    <div class="col-md-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-2">
+                                <h6 class="card-title mb-0">Episode</h6>
+                                <p id="current-episode" class="display-6 mb-0">1</p>
+                                <small id="total-episodes" class="text-muted">of 10</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-2">
+                                <h6 class="card-title mb-0">Step</h6>
+                                <p id="current-step" class="display-6 mb-0">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-2">
+                                <h6 class="card-title mb-0">Reward</h6>
+                                <p id="current-reward" class="display-6 mb-0">0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 bg-light">
+                            <div class="card-body py-2">
+                                <h6 class="card-title mb-0">Total</h6>
+                                <p id="total-reward" class="display-6 mb-0">0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="trajectory-plot" style="height: 500px;"></div>
+                
+                <div id="no-simulation" class="text-center py-5">
+                    <p class="text-muted">No simulation is currently running. Configure and start a simulation to see live results.</p>
+                </div>
+                
+                <div id="error-container" class="alert alert-danger mt-3" style="display: none;">
+                    <strong>Error:</strong> <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Polling for simulation status
+    let simulationInterval;
+    let currentEpisode = 0;
+    
+    function updateSimulationStatus() {
+        fetch('/simulation/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'not_started') {
+                    document.getElementById('no-simulation').style.display = 'block';
+                    document.getElementById('simulation-stats').style.display = 'none';
+                    document.getElementById('status-badge').textContent = 'Not Running';
+                    document.getElementById('status-badge').className = 'badge bg-secondary';
+                    return;
+                }
+                
+                document.getElementById('no-simulation').style.display = 'none';
+                document.getElementById('simulation-stats').style.display = 'flex';
+                
+                // Update status badge
+                document.getElementById('status-badge').textContent = 
+                    data.status.charAt(0).toUpperCase() + data.status.slice(1);
+                
+                if (data.status === 'completed') {
+                    document.getElementById('status-badge').className = 'badge bg-success';
+                    // Update metrics and stop polling
+                    updateSimulationResults();
+                    clearInterval(simulationInterval);
+                } else if (data.status === 'error') {
+                    document.getElementById('status-badge').className = 'badge bg-danger';
+                    document.getElementById('error-container').style.display = 'block';
+                    document.getElementById('error-message').textContent = data.error || 'Unknown error occurred';
+                    // Stop polling on error
+                    clearInterval(simulationInterval);
+                } else {
+                    document.getElementById('status-badge').className = 'badge bg-primary';
+                }
+                
+                // Update stats
+                document.getElementById('current-episode').textContent = data.episode || 1;
+                document.getElementById('total-episodes').textContent = `of ${data.total_episodes || 10}`;
+                document.getElementById('current-step').textContent = data.current_step || 0;
+                document.getElementById('current-reward').textContent = 
+                    data.total_reward ? data.total_reward.toFixed(2) : '0.00';
+                document.getElementById('total-reward').textContent = 
+                    data.total_reward ? data.total_reward.toFixed(2) : '0.00';
+                
+                // If the episode changed, update the results list
+                if (data.episode && data.episode !== currentEpisode) {
+                    currentEpisode = data.episode;
+                    updateSimulationResults();
+                }
+                
+                // Update trajectory plot if data available
+                if (data.trajectory && data.trajectory.length > 0) {
+                    updateTrajectoryPlot(data.trajectory);
+                }
+            })
+            .catch(error => console.error('Error fetching simulation status:', error));
+    }
+    
+    function updateSimulationResults() {
+        fetch('/simulation/results')
+            .then(response => response.json())
+            .then(results => {
+                if (results.length === 0) {
+                    document.getElementById('no-results').style.display = 'block';
+                    document.getElementById('results-content').innerHTML = '';
+                    return;
+                }
+                
+                document.getElementById('no-results').style.display = 'none';
+                const resultsContent = document.getElementById('results-content');
+                resultsContent.innerHTML = '';
+                
+                results.forEach((result, index) => {
+                    const item = document.createElement('a');
+                    item.href = '#';
+                    item.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+                    item.innerHTML = `
+                        <div>
+                            <strong>Episode ${result.episode}</strong><br>
+                            <small class="text-muted">Steps: ${result.steps}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-primary rounded-pill">${result.total_reward.toFixed(2)}</span><br>
+                            <small class="text-muted">${result.complete ? 'Complete' : (result.abandoned ? 'Abandoned' : 'In Progress')}</small>
+                        </div>
+                    `;
+                    
+                    // Add click event to show trajectory
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showTrajectory(result.episode);
+                    });
+                    
+                    resultsContent.appendChild(item);
+                });
+            })
+            .catch(error => console.error('Error fetching simulation results:', error));
+    }
+    
+    function showTrajectory(episode) {
+        fetch(`/plot/trajectory/${episode}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error loading trajectory:', data.error);
+                    return;
+                }
+                
+                const chart = JSON.parse(data);
+                Plotly.newPlot('trajectory-plot', chart.data, chart.layout);
+            })
+            .catch(error => console.error('Error loading trajectory plot:', error));
+    }
+    
+    function updateTrajectoryPlot(trajectoryData) {
+        // Create simple trajectory plot from current data
+        const x = trajectoryData.map(point => point.x);
+        const y = trajectoryData.map(point => point.y);
+        const rewards = trajectoryData.map(point => point.reward);
+        
+        const data = [{
+            x: x,
+            y: y,
+            mode: 'lines+markers',
+            marker: {
+                size: 8,
+                color: rewards,
+                colorscale: 'RdYlGn',
+                colorbar: { title: 'Reward' },
+                showscale: true
+            },
+            line: { width: 2 },
+            name: 'Cat Path'
+        }];
+        
+        // Add prohibited zones
+        const theta = Array.from({length: 100}, (_, i) => i * (2 * Math.PI / 99));
+        const cos = theta.map(angle => Math.cos(angle));
+        const sin = theta.map(angle => Math.sin(angle));
+        
+        // Zone 1
+        const x1 = cos.map(c => 1.5 + 0.5 * c);
+        const y1 = sin.map(s => 1.5 + 0.5 * s);
+        
+        data.push({
+            x: x1,
+            y: y1,
+            fill: 'toself',
+            fillcolor: 'rgba(255,0,0,0.2)',
+            line: { color: 'red' },
+            name: 'Prohibited Zone 1'
+        });
+        
+        // Zone 2
+        const x2 = cos.map(c => -1.5 + 0.5 * c);
+        const y2 = sin.map(s => -1.5 + 0.5 * s);
+        
+        data.push({
+            x: x2,
+            y: y2,
+            fill: 'toself',
+            fillcolor: 'rgba(255,0,0,0.2)',
+            line: { color: 'red' },
+            name: 'Prohibited Zone 2'
+        });
+        
+        // Add start point
+        if (x.length > 0 && y.length > 0) {
+            data.push({
+                x: [x[0]],
+                y: [y[0]],
+                mode: 'markers',
+                marker: { size: 15, color: 'green', symbol: 'circle-open' },
+                name: 'Start'
+            });
+        }
+        
+        const layout = {
+            title: `Current Episode Trajectory`,
+            xaxis: { title: 'X Position', range: [-2.5, 2.5] },
+            yaxis: { title: 'Y Position', range: [-2.5, 2.5] },
+            template: 'plotly_white'
+        };
+        
+        Plotly.newPlot('trajectory-plot', data, layout);
+    }
+    
+    // Start polling when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        updateSimulationStatus();
+        updateSimulationResults();
+        simulationInterval = setInterval(updateSimulationStatus, 1000); // Poll more frequently for simulation
+    });
+</script>
+{% endblock %}

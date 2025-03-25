@@ -143,4 +143,6 @@ class PlayMeowModel:
         Args:
             filepath: Path to the saved model
         """
-        self.model = load_model(filepath)
+        # Add custom objects dict to resolve 'mse' not found error
+        from tensorflow.keras.losses import MeanSquaredError
+        self.model = load_model(filepath, custom_objects={'mse': MeanSquaredError()})

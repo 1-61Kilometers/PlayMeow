@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Training the Model
+### Command Line Interface
 
 ```bash
 # Train with supervised learning only
@@ -60,24 +60,34 @@ python -m playmeow.main train --data-path playmeow/data/sample_data.csv --model-
 
 # Train with supervised learning followed by reinforcement learning
 python -m playmeow.main train --data-path playmeow/data/sample_data.csv --model-path playmeow/models/playmeow_model.h5 --train-rl --rl-episodes 500
-```
 
-### Running Simulation
-
-```bash
 # Run simulation with a trained model
 python -m playmeow.main simulate --model-path playmeow/models/playmeow_model.h5 --sim-episodes 10
-```
 
-### Unity Integration
-
-```bash
 # Start the Unity integration server
 python -m playmeow.main unity --model-path playmeow/models/playmeow_model.h5 --port 12345
 
 # Record data from Unity sessions
 python -m playmeow.main unity --model-path playmeow/models/playmeow_model.h5 --record-data
 ```
+
+### Web Interface
+
+PlayMeow now includes a web dashboard for training, simulation, and visualization:
+
+```bash
+# Start the web server
+python -m webapp.app
+```
+
+Then open your browser to http://localhost:5000
+
+#### Web Interface Features
+
+- **Dashboard**: Overview of the PlayMeow system
+- **Training**: Train models with behavioral cloning and reinforcement learning
+- **Simulation**: Run and visualize simulations of cat engagement
+- **Visualization**: Explore trajectories and training metrics
 
 ## Data Format
 
@@ -105,6 +115,9 @@ The system provides a socket-based integration with Unity:
 - `playmeow/simulation.py`: Simulation environment for training
 - `playmeow/unity_integration.py`: Unity communication interface
 - `playmeow/main.py`: Main entry point for the system
+- `webapp/app.py`: Flask web interface
+- `webapp/templates/`: HTML templates for web interface
+- `webapp/static/`: CSS and JavaScript for web interface
 
 ## Requirements
 
@@ -113,6 +126,8 @@ The system provides a socket-based integration with Unity:
 - NumPy
 - pandas
 - scikit-learn
+- Flask (for web interface)
+- Plotly (for web visualizations)
 
 ## License
 

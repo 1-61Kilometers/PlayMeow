@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+{% block title %}Visualization{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-graph-up text-info"></i> PlayMeow Visualizations</h2>
+
+<ul class="nav nav-tabs mb-4" id="visualizationTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="simulation-tab" data-bs-toggle="tab" data-bs-target="#simulation-pane" 
+                type="button" role="tab" aria-controls="simulation-pane" aria-selected="true">
+            Simulation Results
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="training-tab" data-bs-toggle="tab" data-bs-target="#training-pane" 
+                type="button" role="tab" aria-controls="training-pane" aria-selected="false">
+            Training Metrics
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="visualizationTabContent">
+    <!-- Simulation Results Tab -->
+    <div class="tab-pane fade show active" id="simulation-pane" role="tabpanel" aria-labelledby="simulation-tab">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Select Episode</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="episodes-list" style="max-height: 600px; overflow-y: auto;">
+                            <div id="no-episodes" class="text-center py-3">
+                                <p class="text-muted mb-0">No simulation results to display</p>
+                            </div>
+                            <div id="episodes-content" class="list-group list-group-flush">
+                                <!-- Episodes will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 id="episode-title" class="mb-0">Episode Trajectory</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="trajectory-plot" style="height: 500px;"></div>
+                        <div id="no-trajectory" class="text-center py-5">
+                            <p class="text-muted">Select an episode from the list to view its trajectory</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Episode Metrics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="episode-metrics" class="row text-center">
+                            <div class="col-md-3">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title mb-0">Steps</h6>
+                                        <p id="episode-steps" class="display-6 mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title mb-0">Total Reward</h6>
+                                        <p id="episode-reward" class="display-6 mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title mb-0">Status</h6>
+                                        <p id="episode-status" class="display-6 mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body py-2">
+                                        <h6 class="card-title mb-0">Avg Reward</h6>
+                                        <p id="episode-avg-reward" class="display-6 mb-0">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Training Metrics Tab -->
+    <div class="tab-pane fade" id="training-pane" role="tabpanel" aria-labelledby="training-tab">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Loss Curves</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="loss-chart" style="height: 400px;"></div>
+                        <div id="no-loss-data" class="text-center py-5">
+                            <p class="text-muted">No training data available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">RL Rewards</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="rewards-chart" style="height: 400px;"></div>
+                        <div id="no-rewards-data" class="text-center py-5">
+                            <p class="text-muted">No reinforcement learning data available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Evaluation Metrics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="metrics-content" class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="metrics-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="no-metrics-data" class="text-center py-5">
+                            <p class="text-muted">No evaluation metrics available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load simulation results
+    function loadSimulationResults() {
+        fetch('/simulation/results')
+            .then(response => response.json())
+            .then(results => {
+                if (results.length === 0) {
+                    document.getElementById('no-episodes').style.display = 'block';
+                    document.getElementById('episodes-content').innerHTML = '';
+                    return;
+                }
+                
+                document.getElementById('no-episodes').style.display = 'none';
+                const episodesContent = document.getElementById('episodes-content');
+                episodesContent.innerHTML = '';
+                
+                results.forEach((result, index) => {
+                    const item = document.createElement('a');
+                    item.href = '#';
+                    item.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+                    item.dataset.episode = result.episode;
+                    item.innerHTML = `
+                        <div>
+                            <strong>Episode ${result.episode}</strong><br>
+                            <small class="text-muted">Steps: ${result.steps}</small>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-primary rounded-pill">${result.total_reward.toFixed(2)}</span><br>
+                            <small class="text-muted">${result.complete ? 'Complete' : (result.abandoned ? 'Abandoned' : 'In Progress')}</small>
+                        </div>
+                    `;
+                    
+                    // Add click event to show trajectory
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Remove active class from all episodes
+                        document.querySelectorAll('#episodes-content a').forEach(el => {
+                            el.classList.remove('active');
+                        });
+                        // Add active class to clicked episode
+                        this.classList.add('active');
+                        showEpisodeDetails(result);
+                    });
+                    
+                    episodesContent.appendChild(item);
+                });
+                
+                // Select first episode by default
+                if (results.length > 0) {
+                    episodesContent.firstChild.classList.add('active');
+                    showEpisodeDetails(results[0]);
+                }
+            })
+            .catch(error => console.error('Error fetching simulation results:', error));
+    }
+    
+    function showEpisodeDetails(episode) {
+        // Update metrics
+        document.getElementById('episode-title').textContent = `Episode ${episode.episode} Trajectory`;
+        document.getElementById('episode-steps').textContent = episode.steps;
+        document.getElementById('episode-reward').textContent = episode.total_reward.toFixed(2);
+        document.getElementById('episode-status').textContent = 
+            episode.complete ? 'Complete' : (episode.abandoned ? 'Abandoned' : 'In Progress');
+            
+        // Calculate average reward per step
+        const avgReward = episode.total_reward / episode.steps;
+        document.getElementById('episode-avg-reward').textContent = avgReward.toFixed(2);
+        
+        // Show trajectory plot
+        document.getElementById('no-trajectory').style.display = 'none';
+        document.getElementById('trajectory-plot').style.display = 'block';
+        
+        fetch(`/plot/trajectory/${episode.episode}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error loading trajectory:', data.error);
+                    return;
+                }
+                
+                const chart = JSON.parse(data);
+                Plotly.newPlot('trajectory-plot', chart.data, chart.layout);
+            })
+            .catch(error => console.error('Error loading trajectory plot:', error));
+    }
+    
+    // Load training metrics
+    function loadTrainingMetrics() {
+        fetch('/training/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'not_started') {
+                    document.getElementById('no-loss-data').style.display = 'block';
+                    document.getElementById('loss-chart').style.display = 'none';
+                    document.getElementById('no-rewards-data').style.display = 'block';
+                    document.getElementById('rewards-chart').style.display = 'none';
+                    document.getElementById('no-metrics-data').style.display = 'block';
+                    document.getElementById('metrics-content').style.display = 'none';
+                    return;
+                }
+                
+                // Load loss chart if available
+                if (data.history && data.history.length > 0) {
+                    document.getElementById('no-loss-data').style.display = 'none';
+                    document.getElementById('loss-chart').style.display = 'block';
+                    
+                    fetch('/plot/training')
+                        .then(response => response.json())
+                        .then(chartData => {
+                            const chart = JSON.parse(chartData);
+                            Plotly.newPlot('loss-chart', chart.data, chart.layout);
+                        })
+                        .catch(error => console.error('Error loading loss chart:', error));
+                } else {
+                    document.getElementById('no-loss-data').style.display = 'block';
+                    document.getElementById('loss-chart').style.display = 'none';
+                }
+                
+                // Load rewards chart if available
+                if (data.rewards && data.rewards.length > 0) {
+                    document.getElementById('no-rewards-data').style.display = 'none';
+                    document.getElementById('rewards-chart').style.display = 'block';
+                    
+                    fetch('/plot/rewards')
+                        .then(response => response.json())
+                        .then(chartData => {
+                            const chart = JSON.parse(chartData);
+                            Plotly.newPlot('rewards-chart', chart.data, chart.layout);
+                        })
+                        .catch(error => console.error('Error loading rewards chart:', error));
+                } else {
+                    document.getElementById('no-rewards-data').style.display = 'block';
+                    document.getElementById('rewards-chart').style.display = 'none';
+                }
+                
+                // Show metrics if available
+                if (data.metrics && Object.keys(data.metrics).length > 0) {
+                    document.getElementById('no-metrics-data').style.display = 'none';
+                    document.getElementById('metrics-content').style.display = 'block';
+                    
+                    const metricsBody = document.getElementById('metrics-body');
+                    metricsBody.innerHTML = '';
+                    
+                    for (const [key, value] of Object.entries(data.metrics)) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${key}</td><td>${value.toFixed(4)}</td>`;
+                        metricsBody.appendChild(row);
+                    }
+                } else {
+                    document.getElementById('no-metrics-data').style.display = 'block';
+                    document.getElementById('metrics-content').style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching training metrics:', error));
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSimulationResults();
+        loadTrainingMetrics();
+        
+        // Refresh when changing tabs
+        document.getElementById('simulation-tab').addEventListener('shown.bs.tab', loadSimulationResults);
+        document.getElementById('training-tab').addEventListener('shown.bs.tab', loadTrainingMetrics);
+    });
+</script>
+{% endblock %}
