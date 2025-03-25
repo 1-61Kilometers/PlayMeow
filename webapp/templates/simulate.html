@@ -6,53 +6,6 @@
 <h2 class="mb-4"><i class="bi bi-play-circle text-success"></i> PlayMeow Simulation</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-light">
-                <h5 class="mb-0">Simulation Configuration</h5>
-            </div>
-            <div class="card-body">
-                <form method="POST" action="/simulate">
-                    <div class="mb-3">
-                        <label for="model_path" class="form-label">Model Path</label>
-                        <input type="text" class="form-control" id="model_path" name="model_path" 
-                               value="playmeow/models/playmeow_model.h5" required>
-                        <div class="form-text">Path to the trained model file</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="episodes" class="form-label">Number of Episodes</label>
-                        <input type="number" class="form-control" id="episodes" name="episodes" 
-                               value="10" min="1" max="100" required>
-                        <div class="form-text">How many simulation episodes to run</div>
-                    </div>
-                    
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary" {% if simulation_running %}disabled{% endif %}>
-                            <i class="bi bi-play-circle"></i> Start Simulation
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-light">
-                <h5 class="mb-0">Simulation Results</h5>
-            </div>
-            <div class="card-body">
-                <div id="results-list" style="max-height: 400px; overflow-y: auto;">
-                    <div id="no-results" class="text-center py-3">
-                        <p class="text-muted mb-0">No simulation results yet</p>
-                    </div>
-                    <div id="results-content" class="list-group list-group-flush">
-                        <!-- Results will be added here dynamically -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
     <div class="col-md-8">
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
@@ -104,6 +57,53 @@
                 
                 <div id="error-container" class="alert alert-danger mt-3" style="display: none;">
                     <strong>Error:</strong> <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Simulation Configuration</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/simulate">
+                    <div class="mb-3">
+                        <label for="model_path" class="form-label">Model Path</label>
+                        <input type="text" class="form-control" id="model_path" name="model_path" 
+                               value="playmeow/models/playmeow_model.h5" required>
+                        <div class="form-text">Path to the trained model file</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="episodes" class="form-label">Number of Episodes</label>
+                        <input type="number" class="form-control" id="episodes" name="episodes" 
+                               value="10" min="1" max="100" required>
+                        <div class="form-text">How many simulation episodes to run</div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" {% if simulation_running %}disabled{% endif %}>
+                            <i class="bi bi-play-circle"></i> Start Simulation
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Simulation Results</h5>
+            </div>
+            <div class="card-body">
+                <div id="results-list" style="max-height: 400px; overflow-y: auto;">
+                    <div id="no-results" class="text-center py-3">
+                        <p class="text-muted mb-0">No simulation results yet</p>
+                    </div>
+                    <div id="results-content" class="list-group list-group-flush">
+                        <!-- Results will be added here dynamically -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -251,36 +251,7 @@
             name: 'Cat Path'
         }];
         
-        // Add prohibited zones
-        const theta = Array.from({length: 100}, (_, i) => i * (2 * Math.PI / 99));
-        const cos = theta.map(angle => Math.cos(angle));
-        const sin = theta.map(angle => Math.sin(angle));
-        
-        // Zone 1
-        const x1 = cos.map(c => 1.5 + 0.5 * c);
-        const y1 = sin.map(s => 1.5 + 0.5 * s);
-        
-        data.push({
-            x: x1,
-            y: y1,
-            fill: 'toself',
-            fillcolor: 'rgba(255,0,0,0.2)',
-            line: { color: 'red' },
-            name: 'Prohibited Zone 1'
-        });
-        
-        // Zone 2
-        const x2 = cos.map(c => -1.5 + 0.5 * c);
-        const y2 = sin.map(s => -1.5 + 0.5 * s);
-        
-        data.push({
-            x: x2,
-            y: y2,
-            fill: 'toself',
-            fillcolor: 'rgba(255,0,0,0.2)',
-            line: { color: 'red' },
-            name: 'Prohibited Zone 2'
-        });
+        // Prohibited zones have been removed
         
         // Add start point
         if (x.length > 0 && y.length > 0) {

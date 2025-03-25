@@ -53,9 +53,6 @@ def train_model(args):
         # Create simulation environment
         sim = PlayMeowSimulation(bounds=(-2, 2, -2, 2))
         
-        # Add prohibited zones
-        sim.add_prohibited_zone(1.5, 1.5, 0.5)
-        sim.add_prohibited_zone(-1.5, -1.5, 0.5)
         
         # Train with reinforcement learning
         rewards = trainer.train_reinforcement(
@@ -91,9 +88,6 @@ def run_simulation(args):
     # Create simulation
     sim = PlayMeowSimulation(bounds=(-2, 2, -2, 2))
     
-    # Add prohibited zones
-    sim.add_prohibited_zone(1.5, 1.5, 0.5)
-    sim.add_prohibited_zone(-1.5, -1.5, 0.5)
     
     # Run simulation episodes
     for episode in range(args.sim_episodes):

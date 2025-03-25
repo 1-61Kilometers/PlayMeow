@@ -149,9 +149,7 @@ def train():
                     # Create simulation environment
                     sim = PlayMeowSimulation(bounds=(-2, 2, -2, 2))
                     
-                    # Add prohibited zones
-                    sim.add_prohibited_zone(1.5, 1.5, 0.5)
-                    sim.add_prohibited_zone(-1.5, -1.5, 0.5)
+                    # Prohibited zones have been removed from the simulation
                     
                     # Train with reinforcement learning
                     rewards = trainer.train_reinforcement(
@@ -236,9 +234,7 @@ def simulate():
                 # Create simulation
                 sim = PlayMeowSimulation(bounds=(-2, 2, -2, 2))
                 
-                # Add prohibited zones
-                sim.add_prohibited_zone(1.5, 1.5, 0.5)
-                sim.add_prohibited_zone(-1.5, -1.5, 0.5)
+                # Prohibited zones have been removed from the simulation
                 
                 # Clear previous results
                 simulation_results = []
@@ -488,34 +484,7 @@ def plot_trajectory(episode):
         name='Cat Path'
     ))
     
-    # Add prohibited zones
-    # Note: This is hardcoded based on the simulation setup
-    # Add prohibited zone 1
-    theta = np.linspace(0, 2*np.pi, 100)
-    x1 = 1.5 + 0.5 * np.cos(theta)
-    y1 = 1.5 + 0.5 * np.sin(theta)
-    
-    fig.add_trace(go.Scatter(
-        x=x1,
-        y=y1,
-        fill='toself',
-        fillcolor='rgba(255,0,0,0.2)',
-        line=dict(color='red'),
-        name='Prohibited Zone 1'
-    ))
-    
-    # Add prohibited zone 2
-    x2 = -1.5 + 0.5 * np.cos(theta)
-    y2 = -1.5 + 0.5 * np.sin(theta)
-    
-    fig.add_trace(go.Scatter(
-        x=x2,
-        y=y2,
-        fill='toself',
-        fillcolor='rgba(255,0,0,0.2)',
-        line=dict(color='red'),
-        name='Prohibited Zone 2'
-    ))
+    # Prohibited zones have been removed from the visualization
     
     # Add start and end points
     fig.add_trace(go.Scatter(

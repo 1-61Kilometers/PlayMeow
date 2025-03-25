@@ -29,7 +29,7 @@ class ReinforcementLearning:
         Args:
             engagement: Binary engagement indicator
             distance: Distance between cat and laser
-            in_prohibited_zone: Whether laser is in prohibited zone
+            in_prohibited_zone: Whether laser is in prohibited zone (deprecated, no longer used)
             session_complete: Whether play session completed successfully
             session_abandoned: Whether play session was abandoned
             
@@ -53,10 +53,6 @@ class ReinforcementLearning:
         # Distance reward (appropriate distance maintenance)
         if 0.2 <= distance <= 1.0:  # Assuming units in meters
             reward += 0.01
-        
-        # Prohibited zone penalty
-        if in_prohibited_zone:
-            reward -= 0.1
             
         return reward
     

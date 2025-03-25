@@ -18,7 +18,6 @@ class PlayMeowSimulation:
         self.bounds = bounds
         self.cat_speed_range = cat_speed_range
         self.engagement_threshold = engagement_threshold
-        self.prohibited_zones = []  # List of (x, z, radius) tuples for prohibited zones
         
         # Current state
         self.cat_pos = np.zeros(2)  # (x, z)
@@ -31,31 +30,6 @@ class PlayMeowSimulation:
         self.episode_steps = 0
         self.max_episode_steps = 300
         
-    def add_prohibited_zone(self, x, z, radius):
-        """
-        Add a prohibited zone for the laser.
-        
-        Args:
-            x, z: Center coordinates
-            radius: Radius of the prohibited zone
-        """
-        self.prohibited_zones.append((x, z, radius))
-    
-    def is_in_prohibited_zone(self, x, z):
-        """
-        Check if a position is in any prohibited zone.
-        
-        Args:
-            x, z: Position to check
-            
-        Returns:
-            True if in prohibited zone, False otherwise
-        """
-        for px, pz, radius in self.prohibited_zones:
-            distance = np.sqrt((x - px)**2 + (z - pz)**2)
-            if distance < radius:
-                return True
-        return False
     
     def reset(self):
         """
@@ -111,13 +85,6 @@ class PlayMeowSimulation:
         new_laser_pos[0] = np.clip(new_laser_pos[0], self.bounds[0], self.bounds[1])
         new_laser_pos[1] = np.clip(new_laser_pos[1], self.bounds[2], self.bounds[3])
         
-        # Check if in prohibited zone and adjust if necessary
-        if self.is_in_prohibited_zone(new_laser_pos[0], new_laser_pos[1]):
-            # Try to move away from prohibited zone
-            direction_to_center = np.array([0, 0]) - new_laser_pos
-            if np.linalg.norm(direction_to_center) > 0:
-                direction_to_center = direction_to_center / np.linalg.norm(direction_to_center)
-                new_laser_pos = self.laser_pos + (direction_to_center * 0.1)
         
         # Update laser position
         self.laser_pos = new_laser_pos
@@ -144,7 +111,7 @@ class PlayMeowSimulation:
         self.play_duration += 1
         
         # Calculate reward
-        in_prohibited_zone = self.is_in_prohibited_zone(self.laser_pos[0], self.laser_pos[1])
+        in_prohibited_zone = False
         session_complete = self.play_duration >= 100 and self.cat_interest_level > 0.6
         session_abandoned = self.cat_interest_level < 0.2
         
