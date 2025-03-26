@@ -129,6 +129,35 @@ The system provides a socket-based integration with Unity:
 - Flask (for web interface)
 - Plotly (for web visualizations)
 
+## Testing
+
+PlayMeow includes a comprehensive test suite covering all major components. To run tests:
+
+```bash
+# Run all tests
+./run_tests.py
+
+# Run only unit tests
+./run_tests.py --unit
+
+# Run only integration tests
+./run_tests.py --integration
+
+# Run tests with test coverage report
+./run_tests.py --coverage
+
+# Run tests without slow tests
+./run_tests.py --fast
+```
+
+The test suite is organized into:
+
+- **Unit tests**: Tests for individual components
+- **Integration tests**: Tests for end-to-end workflows
+- **Fixtures**: Common test data and helper functions
+
+See the `tests/README.md` file for more details on testing.
+
 ## License
 
 MIT
