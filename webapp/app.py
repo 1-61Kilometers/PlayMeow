@@ -10,6 +10,8 @@ from threading import Thread
 import time
 import sys
 import logging
+import uuid
+from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -19,14 +21,39 @@ from playmeow.model import PlayMeowModel
 from playmeow.trainer import PlayMeowTrainer
 from playmeow.simulation import PlayMeowSimulation
 from playmeow.reinforcement import ReinforcementLearning
+from playmeow.config import get_config, load_config
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, 
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, 
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('webapp.log')
+    ]
+)
 logger = logging.getLogger(__name__)
 
+# Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'playmeow_flask_secret_key'
+
+# Load configuration
+config = get_config()
+
+# Set secret key from environment variable or config file
+# If neither is available, generate a random key (but it won't persist across restarts)
+app.secret_key = os.environ.get(
+    'PLAYMEOW_SECRET_KEY',  # Check environment variable first
+    config.get('webapp', {}).get('secret_key', str(uuid.uuid4()))  # Fall back to config or generate random key
+)
+
+# Log warning if using default or generated key in production
+if app.secret_key == 'playmeow_flask_secret_key' or len(app.secret_key) < 24:
+    if os.environ.get('FLASK_ENV') == 'production':
+        logger.warning(
+            "Using default or weak secret key in production! "
+            "Set the PLAYMEOW_SECRET_KEY environment variable with a strong secret"
+        )
 
 # Global variables
 simulation_results = []
@@ -38,22 +65,32 @@ is_training = False
 training_thread = None
 trainer = None
 
-DEFAULT_MODEL_PATH = "playmeow/models/playmeow_model.h5"
-DEFAULT_DATA_PATH = "playmeow/data/sample_data.csv"
-INPUT_SHAPE = (10, 10)  # Assumed default
+# Get configuration
+DEFAULT_MODEL_PATH = config['common']['default_model_path']
+DEFAULT_DATA_PATH = config['common']['default_data_path']
+INPUT_SHAPE = tuple(config['common']['input_shape']) 
+WINDOW_SIZE = config['common']['window_size']
+PREDICTION_HORIZON = config['common']['prediction_horizon']
 
 def initialize_trainer():
     """Initialize the trainer with default settings"""
     global trainer
-    if trainer is None:
-        trainer = PlayMeowTrainer(window_size=10, prediction_horizon=5)
-        # Try to load model if it exists
-        if os.path.exists(DEFAULT_MODEL_PATH):
-            try:
-                trainer.load_model(DEFAULT_MODEL_PATH, INPUT_SHAPE)
-                logger.info(f"Loaded model from {DEFAULT_MODEL_PATH}")
-            except Exception as e:
-                logger.error(f"Error loading model: {e}")
+    
+    try:
+        if trainer is None:
+            trainer = PlayMeowTrainer(window_size=WINDOW_SIZE, prediction_horizon=PREDICTION_HORIZON)
+            # Try to load model if it exists
+            if os.path.exists(DEFAULT_MODEL_PATH):
+                try:
+                    trainer.load_model(DEFAULT_MODEL_PATH, INPUT_SHAPE)
+                    logger.info(f"Loaded model from {DEFAULT_MODEL_PATH}")
+                except Exception as e:
+                    logger.error(f"Error loading model: {e}")
+                    logger.info("Initializing with new model")
+    except Exception as e:
+        logger.error(f"Error initializing trainer: {e}")
+        # Create empty trainer as fallback
+        trainer = PlayMeowTrainer()
 
 # Initialize on startup
 initialize_trainer()
@@ -477,7 +514,15 @@ def plot_trajectory(episode):
             size=8,
             color=rewards,
             colorscale='RdYlGn',
-            colorbar=dict(title='Reward'),
+            colorbar=dict(
+                title='Reward',
+                # Adjust colorbar position to avoid overlap
+                x=1.05,  # Position it further right
+                xpad=10,  # Add padding
+                len=0.8,  # Make it 80% of the plot height
+                y=0.5,   # Center it vertically
+                yanchor='middle'
+            ),
             showscale=True
         ),
         line=dict(width=2),
@@ -510,10 +555,27 @@ def plot_trajectory(episode):
         yaxis_title='Y Position',
         xaxis=dict(range=[-2.5, 2.5]),
         yaxis=dict(range=[-2.5, 2.5]),
-        template='plotly_white'
+        template='plotly_white',
+        # Fix legend position to avoid overlap with colorbar
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        # Adjust margins to make room for legend and colorbar
+        margin=dict(t=80, r=80, l=50, b=50)
     )
     
     return jsonify(plotly.io.to_json(fig))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Get host, port, and debug settings from config (with environment variable override)
+    host = os.environ.get('PLAYMEOW_WEB_HOST', config['webapp']['host'])
+    port = int(os.environ.get('PLAYMEOW_WEB_PORT', config['webapp']['port']))
+    debug = os.environ.get('PLAYMEOW_WEB_DEBUG', str(config['webapp']['debug'])).lower() in ['true', '1', 'yes']
+    
+    # Start the Flask app
+    logger.info(f"Starting web application on {host}:{port} (debug={debug})")
+    app.run(debug=debug, host=host, port=port)

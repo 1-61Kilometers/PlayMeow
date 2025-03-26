@@ -244,7 +244,15 @@
                 size: 8,
                 color: rewards,
                 colorscale: 'RdYlGn',
-                colorbar: { title: 'Reward' },
+                colorbar: {
+                    title: 'Reward',
+                    // Adjust colorbar position
+                    x: 1.05,
+                    xpad: 10,
+                    len: 0.8,
+                    y: 0.5,
+                    yanchor: 'middle'
+                },
                 showscale: true
             },
             line: { width: 2 },
@@ -268,7 +276,17 @@
             title: `Current Episode Trajectory`,
             xaxis: { title: 'X Position', range: [-2.5, 2.5] },
             yaxis: { title: 'Y Position', range: [-2.5, 2.5] },
-            template: 'plotly_white'
+            template: 'plotly_white',
+            // Fix legend position
+            legend: {
+                orientation: "h",
+                yanchor: "bottom",
+                y: 1.02,
+                xanchor: "right",
+                x: 1
+            },
+            // Adjust margins
+            margin: {t: 80, r: 80, l: 50, b: 50}
         };
         
         Plotly.newPlot('trajectory-plot', data, layout);

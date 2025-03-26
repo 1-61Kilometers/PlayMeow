@@ -52,6 +52,41 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Configuration
+
+PlayMeow now includes a configuration system to easily customize all aspects of the system. 
+You can use the sample configuration file as a starting point:
+
+```bash
+# Copy the sample configuration
+cp playmeow_config.sample.json playmeow_config.json
+
+# Edit the configuration file
+nano playmeow_config.json
+
+# View the current configuration
+python -m playmeow.main config view
+
+# Save the current configuration to a file
+python -m playmeow.main config save --path my_config.json
+```
+
+You can then use your configuration file with any command:
+
+```bash
+python -m playmeow.main --config my_config.json train
+```
+
+### Environment Variables
+
+Certain settings can be controlled through environment variables:
+
+- `PLAYMEOW_SECRET_KEY`: Secret key for the web application (recommended in production)
+- `PLAYMEOW_WEB_HOST`: Host for the web server (overrides config)
+- `PLAYMEOW_WEB_PORT`: Port for the web server (overrides config)
+- `PLAYMEOW_WEB_DEBUG`: Enable debug mode for web server (overrides config)
+- `FLASK_ENV`: Set to 'production' for production deployment
+
 ### Command Line Interface
 
 ```bash
@@ -71,16 +106,28 @@ python -m playmeow.main unity --model-path playmeow/models/playmeow_model.h5 --p
 python -m playmeow.main unity --model-path playmeow/models/playmeow_model.h5 --record-data
 ```
 
-### Web Interface
-
-PlayMeow now includes a web dashboard for training, simulation, and visualization:
-
+Additional options:
 ```bash
-# Start the web server
-python -m webapp.app
+# Set logging level
+python -m playmeow.main --log-level DEBUG train
+
+# Use a custom configuration file
+python -m playmeow.main --config my_config.json train
 ```
 
-Then open your browser to http://localhost:5000
+### Web Interface
+
+PlayMeow includes a web dashboard for training, simulation, and visualization:
+
+```bash
+# Start the web server with default settings
+python -m webapp.app
+
+# Start with environment variables
+PLAYMEOW_WEB_PORT=8080 PLAYMEOW_SECRET_KEY="your-secret-key" python -m webapp.app
+```
+
+Then open your browser to http://localhost:5000 (or the port you configured)
 
 #### Web Interface Features
 
