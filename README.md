@@ -205,6 +205,12 @@ The test suite is organized into:
 
 See the `tests/README.md` file for more details on testing.
 
+## Acknowledgments
+
+- 3D cat model credit: [Low Poly Cat](https://free3d.com/3d-model/low-poly-cat-46138.html) from Free3D
+- 3D scanning and modeling assisted by Polycam
+
+
 ## License
 
 MIT

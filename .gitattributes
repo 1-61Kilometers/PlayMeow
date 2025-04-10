@@ -1,0 +1,5 @@
+# Use git lfs for the following file types
+*.psd   filter=lfs
+*.fbx   filter=lfs
+*.mp4   filter=lfs
+# ... other file types
