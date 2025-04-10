@@ -6,7 +6,6 @@ public class Movement : MonoBehaviour
     public Transform joint2;
     public Transform target;
 
-    public Transform target2;
 
     // Update is called once per frame
     void Update()

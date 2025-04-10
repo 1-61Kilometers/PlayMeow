@@ -76,7 +76,7 @@ public class TurretController : MonoBehaviour
             Debug.DrawRay(panPart.position, panPart.up * 3.0f, Color.green); // Local Y
             Debug.DrawRay(panPart.position, panPart.forward * 5.0f, Color.blue); // Local Z (Aiming Direction)
             
-            Debug.DrawLine(panPart.position, target.position, Color.yellow); // Line to target world pos
+            
             }
 
         // --- Tilt Calculation (AROUND LOCAL X-AXIS) ---
@@ -95,7 +95,7 @@ public class TurretController : MonoBehaviour
 
         // Apply the calculated angle around the X-axis
         targetTiltRotation = Quaternion.Euler(targetTiltAngleX_clamped, 0f, 0f);
-
+        Debug.DrawLine(tiltPart.position, target.position, Color.yellow); // Line to target world pos
         if (enableDebugLogs)
         {
             Debug.Log($"Tilt Local Direction: {localTargetDirectionTilt}, Tilt Angle (X - Raw): {targetTiltAngleX_raw:F2}, Clamped: {targetTiltAngleX_clamped:F2}");
@@ -135,7 +135,7 @@ public class TurretController : MonoBehaviour
          if (target != null && panPart != null)
          {
               Gizmos.color = Color.yellow; // Direct line to target
-              Gizmos.DrawLine(panPart.position, target.position);
+              Gizmos.DrawLine(tiltPart.position, target.position);
          }
      }
 }

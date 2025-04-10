@@ -14,6 +14,19 @@ using System.Globalization;
 /// </summary>
 public class Recorder : MonoBehaviour
 {
+    [Header("Visualization")]
+    [Tooltip("Show boundaries visualization in scene view")]
+    public bool showBoundaries = true;
+    
+    [Tooltip("Height of the boundary visualization")]
+    public float boundaryHeight = 0.1f;
+    
+    [Tooltip("Color of the boundary visualization")]
+    public Color boundaryColor = new Color(1f, 0.5f, 0f, 0.8f); // Orange with 80% opacity
+    
+    [Tooltip("Show boundaries during runtime (not just in editor)")]
+    public bool showRuntimeBoundaries = false;
+
     [Header("Game Objects")]
     [Tooltip("Reference to the cat GameObject")]
     public GameObject catObject;
@@ -33,7 +46,7 @@ public class Recorder : MonoBehaviour
 
     [Header("Simulation Parameters")]
     [Tooltip("Boundaries of the play area [minX, maxX, minZ, maxZ]")]
-    public Vector4 playAreaBounds = new Vector4(-2f, 2f, -2f, 2f);
+    public Vector4 playAreaBounds = new Vector4(-1.66f, 0.45f, .33f, 2.36f);
 
     [Header("Debug")]
     [Tooltip("Display debug information in the console")]
@@ -42,7 +55,7 @@ public class Recorder : MonoBehaviour
     // Internal variables
     private List<PlayMeowDataRow> dataBuffer = new List<PlayMeowDataRow>();
     private float recordingTimer = 0f;
-    private bool isRecording = false;
+    public bool isRecording = false;
     private float simulationStartTime;
     private int engagementIndicator = 0;
     private float timeSinceEngagement = 0f;
@@ -108,8 +121,15 @@ public class Recorder : MonoBehaviour
         // Record data at the specified interval
         if (recordingTimer >= recordingInterval)
         {
+            Debug.Log("Recording data frame...");
             RecordDataFrame();
             recordingTimer = 0f;
+        }
+        
+        // Draw runtime boundaries if enabled
+        if (showRuntimeBoundaries)
+        {
+            DrawRuntimeBoundaries();
         }
     }
 
@@ -140,9 +160,12 @@ public class Recorder : MonoBehaviour
     /// </summary>
     private void RecordDataFrame()
     {
-        if (catObject == null || laserObject == null)
+        
+        if (catObject == null || laserObject == null){
+            Debug.LogError("PlayMeow Data Recorder: Cat or laser GameObject references not set!");
             return;
-
+        }
+            
         // Calculate simulation time
         float currentTime = Time.time - simulationStartTime;
 
@@ -161,6 +184,7 @@ public class Recorder : MonoBehaviour
             Mathf.Abs(laserPosition.z - playAreaBounds.w)
         );
 
+
         // Create and add data row
         PlayMeowDataRow dataRow = new PlayMeowDataRow(
             currentTime,
@@ -173,6 +197,8 @@ public class Recorder : MonoBehaviour
         );
 
         dataBuffer.Add(dataRow);
+
+        Debug.Log($"Recorded Data: {dataRow.timestamp}, {catPosition}, {laserPosition}, {engagementIndicator}, {timeSinceEngagement}, {distToBoundaryX}, {distToBoundaryZ}");
 
         // Update time since engagement
         if (engagementIndicator == 1)
@@ -274,5 +300,78 @@ public class Recorder : MonoBehaviour
     public string GetSaveFilePath()
     {
         return Path.Combine(Application.persistentDataPath, saveFilePath);
+    }
+
+     /// <summary>
+    /// Draw boundaries in the scene view (editor only)
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        if (!showBoundaries)
+            return;
+            
+        Gizmos.color = boundaryColor;
+        
+        // Get boundary values
+        float minX = playAreaBounds.x;
+        float maxX = playAreaBounds.y;
+        float minZ = playAreaBounds.z;
+        float maxZ = playAreaBounds.w;
+        
+        // Set y-values for bottom and top of boundary
+        float bottomY = transform.position.y - 1f;
+        float topY = bottomY + boundaryHeight;
+        
+        // Draw the 4 vertical lines at corners
+        Gizmos.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(minX, topY, minZ));
+        Gizmos.DrawLine(new Vector3(maxX, bottomY, minZ), new Vector3(maxX, topY, minZ));
+        Gizmos.DrawLine(new Vector3(minX, bottomY, maxZ), new Vector3(minX, topY, maxZ));
+        Gizmos.DrawLine(new Vector3(maxX, bottomY, maxZ), new Vector3(maxX, topY, maxZ));
+        
+        // Draw the 4 lines along bottom
+        Gizmos.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(maxX, bottomY, minZ));
+        Gizmos.DrawLine(new Vector3(minX, bottomY, maxZ), new Vector3(maxX, bottomY, maxZ));
+        Gizmos.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(minX, bottomY, maxZ));
+        Gizmos.DrawLine(new Vector3(maxX, bottomY, minZ), new Vector3(maxX, bottomY, maxZ));
+        
+        // Draw the 4 lines along top
+        Gizmos.DrawLine(new Vector3(minX, topY, minZ), new Vector3(maxX, topY, minZ));
+        Gizmos.DrawLine(new Vector3(minX, topY, maxZ), new Vector3(maxX, topY, maxZ));
+        Gizmos.DrawLine(new Vector3(minX, topY, minZ), new Vector3(minX, topY, maxZ));
+        Gizmos.DrawLine(new Vector3(maxX, topY, minZ), new Vector3(maxX, topY, maxZ));
+        
+        // Draw a filled semi-transparent box to represent the play area
+        Gizmos.color = new Color(boundaryColor.r, boundaryColor.g, boundaryColor.b, 0.1f);
+        Gizmos.DrawCube(
+            new Vector3((minX + maxX) / 2, bottomY + boundaryHeight / 2, (minZ + maxZ) / 2),
+            new Vector3(maxX - minX, boundaryHeight, maxZ - minZ)
+        );
+    }
+    
+    /// <summary>
+    /// Draw boundaries during runtime (game view)
+    /// </summary>
+    private void DrawRuntimeBoundaries()
+    {
+        // Get boundary values
+        float minX = playAreaBounds.x;
+        float maxX = playAreaBounds.y;
+        float minZ = playAreaBounds.z;
+        float maxZ = playAreaBounds.w;
+        
+        float bottomY = transform.position.y;
+        float topY = bottomY + boundaryHeight;
+        
+        // Draw the boundary lines using Debug.DrawLine
+        Debug.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(maxX, bottomY, minZ), boundaryColor);
+        Debug.DrawLine(new Vector3(minX, bottomY, maxZ), new Vector3(maxX, bottomY, maxZ), boundaryColor);
+        Debug.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(minX, bottomY, maxZ), boundaryColor);
+        Debug.DrawLine(new Vector3(maxX, bottomY, minZ), new Vector3(maxX, bottomY, maxZ), boundaryColor);
+        
+        // Draw vertical lines at the corners
+        Debug.DrawLine(new Vector3(minX, bottomY, minZ), new Vector3(minX, topY, minZ), boundaryColor);
+        Debug.DrawLine(new Vector3(maxX, bottomY, minZ), new Vector3(maxX, topY, minZ), boundaryColor);
+        Debug.DrawLine(new Vector3(minX, bottomY, maxZ), new Vector3(minX, topY, maxZ), boundaryColor);
+        Debug.DrawLine(new Vector3(maxX, bottomY, maxZ), new Vector3(maxX, topY, maxZ), boundaryColor);
     }
 }
