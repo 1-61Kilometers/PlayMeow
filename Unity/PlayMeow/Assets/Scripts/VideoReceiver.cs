@@ -13,7 +13,7 @@ public class VideoReceiver : MonoBehaviour
 
     async void Start()
     {
-        videoTexture = new Texture2D(640, 480);
+        videoTexture = new Texture2D(1280, 720);
         if (targetMaterial != null)
         {
             targetMaterial.mainTexture = videoTexture;
