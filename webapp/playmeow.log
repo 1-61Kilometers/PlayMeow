@@ -1,0 +1,177 @@
+2025-04-11 03:16:27,097 - playmeow.config - INFO - No config file specified or found. Using default configuration.
+2025-04-11 03:16:27,100 - __main__ - INFO - Starting web application on 0.0.0.0:5000 (debug=False)
+2025-04-11 03:16:46,294 - playmeow.config - INFO - No config file specified or found. Using default configuration.
+2025-04-11 03:16:46,298 - __main__ - INFO - Starting web application on 0.0.0.0:5000 (debug=False)
+2025-04-11 03:17:13,035 - playmeow.config - INFO - No config file specified or found. Using default configuration.
+2025-04-11 03:17:13,039 - __main__ - INFO - Starting web application on 0.0.0.0:5000 (debug=False)
+2025-04-11 03:19:25,166 - playmeow.config - INFO - No config file specified or found. Using default configuration.
+2025-04-11 03:19:25,169 - __main__ - INFO - Starting web application on 0.0.0.0:5000 (debug=False)
+2025-04-11 03:20:05,637 - playmeow.config - INFO - No config file specified or found. Using default configuration.
+2025-04-11 03:20:05,641 - __main__ - INFO - Starting web application on 0.0.0.0:5000 (debug=False)
+2025-04-11 03:20:06,977 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.0.0.238:8080
+2025-04-11 03:20:06,977 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-11 03:20:13,089 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:13] "GET / HTTP/1.1" 200 -
+2025-04-11 03:20:13,279 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:13] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-11 03:20:14,444 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:14] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-11 03:20:15,963 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:15] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:20:16,054 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:20:16,284 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:16] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:19,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:19] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:22,279 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:22] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:25,277 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:25] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:28,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:28] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:31,279 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:31] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:34,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:34] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:37,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:37] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:40,282 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:40] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:43,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:43] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:46,281 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:46] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:49,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:49] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:52,279 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:52] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:55,281 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:55] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:20:58,279 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:20:58] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:21:01,277 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:01] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:21:04,278 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:04] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:21:07,277 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:07] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:21:09,292 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data2.csv
+2025-04-11 03:21:09,294 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:09] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:21:09,298 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data2.csv'
+2025-04-11 03:21:09,302 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:09] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:21:09,347 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:21:09,615 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:21:09] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:08,070 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data.csv
+2025-04-11 03:22:08,071 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:08] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:08,072 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data.csv'
+2025-04-11 03:22:08,082 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:08] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:08,128 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:08,454 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:08] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:12,555 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:22:12,556 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:12] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:12,557 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:22:12,563 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:12] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:12,593 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:12] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:12,859 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:12] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:16,189 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data.csv
+2025-04-11 03:22:16,191 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:16] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:16,192 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data.csv'
+2025-04-11 03:22:16,221 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:16] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:16,255 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:16,547 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:16] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:27,623 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data1.csv
+2025-04-11 03:22:27,623 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:27] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:27,624 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data1.csv'
+2025-04-11 03:22:27,630 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:27] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:27,659 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:27,942 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:27] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:31,272 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data2.csv
+2025-04-11 03:22:31,273 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:31] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:31,274 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data2.csv'
+2025-04-11 03:22:31,280 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:31] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:31,313 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:31] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:31,590 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:31] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:58,299 - __main__ - INFO - Preparing data from playmeow/data/playmeow_data.csv
+2025-04-11 03:22:58,300 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:58] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:22:58,301 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/playmeow_data.csv'
+2025-04-11 03:22:58,309 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:58] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:58,342 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:22:58,639 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:58] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:22:59,719 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:59] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:22:59,839 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:22:59] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-11 03:23:00,085 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:00] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:00,205 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:00] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-11 03:23:15,004 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:23:15,005 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:15] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:23:15,005 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:23:15,017 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:15] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:15,247 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:15,534 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:15] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:16,845 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:23:16,846 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:16] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:23:16,846 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:23:16,857 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:16] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:16,889 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:16] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:17,159 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:17] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:17,777 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:23:17,778 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:17] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:23:17,779 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:23:17,786 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:17] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:17,829 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:17] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:18,142 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:18] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:21,119 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:21] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:21,165 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:21] "GET /static/css/style.css HTTP/1.1" 200 -
+2025-04-11 03:23:21,454 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:21] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:21,519 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:21] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-11 03:23:22,914 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:22] "GET / HTTP/1.1" 200 -
+2025-04-11 03:23:22,982 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:22] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:24,006 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:24] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:24,109 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:24,340 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:24] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:23:26,518 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:23:26,519 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:26] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:23:26,519 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:23:26,527 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:26] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:23:26,581 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:23:26,853 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:23:26] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:25:53,985 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:25:53,986 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:53] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:25:53,987 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:25:53,992 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:53] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:25:54,042 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:54] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:25:54,379 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:54] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:25:55,183 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:25:55,184 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:55] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:25:55,185 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:25:55,201 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:55] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:25:55,234 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:25:55,604 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:25:55] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:10,441 - __main__ - INFO - Preparing data from GitHub/PlayMeow/playmeow/data/sample_data.csv
+2025-04-11 03:26:10,442 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:10] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:10,443 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'GitHub/PlayMeow/playmeow/data/sample_data.csv'
+2025-04-11 03:26:10,448 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:10] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:10,477 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:10,758 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:10] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:21,152 - __main__ - INFO - Preparing data from GitHub/PlayMeow/playmeow/data/sample_data.csv
+2025-04-11 03:26:21,153 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:21] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:21,153 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'GitHub/PlayMeow/playmeow/data/sample_data.csv'
+2025-04-11 03:26:21,159 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:21] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:21,202 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:21,502 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:21] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:26,394 - __main__ - INFO - Preparing data from sample_data.csv_data.csv
+2025-04-11 03:26:26,395 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:26] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:26,395 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'sample_data.csv_data.csv'
+2025-04-11 03:26:26,400 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:26] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:26,445 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:26,734 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:26] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:28,744 - __main__ - INFO - Preparing data from data/sample_data.csv
+2025-04-11 03:26:28,745 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:28] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:28,745 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'data/sample_data.csv'
+2025-04-11 03:26:28,751 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:28] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:28,782 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:28] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:29,080 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:29] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:38,400 - __main__ - INFO - Preparing data from sample_data.csv
+2025-04-11 03:26:38,402 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:38] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:38,402 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'sample_data.csv'
+2025-04-11 03:26:38,407 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:38] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:38,449 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:38,719 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:38] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:49,898 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:26:49,899 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:49] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:49,899 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:26:49,909 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:49] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:49,969 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:50,241 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:50] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:50,792 - __main__ - INFO - Preparing data from playmeow/data/sample_data.csv
+2025-04-11 03:26:50,793 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:50] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:50,793 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'playmeow/data/sample_data.csv'
+2025-04-11 03:26:50,799 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:50] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:50,847 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:50] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:51,139 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:51] "GET /training/status HTTP/1.1" 200 -
+2025-04-11 03:26:54,292 - __main__ - INFO - Preparing data from sample_data.csv
+2025-04-11 03:26:54,292 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:54] "[32mPOST /train HTTP/1.1[0m" 302 -
+2025-04-11 03:26:54,293 - __main__ - ERROR - Error during training: [Errno 2] No such file or directory: 'sample_data.csv'
+2025-04-11 03:26:54,299 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:54] "GET /train HTTP/1.1" 200 -
+2025-04-11 03:26:54,342 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:54] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-04-11 03:26:54,636 - werkzeug - INFO - 127.0.0.1 - - [11/Apr/2025 03:26:54] "GET /training/status HTTP/1.1" 200 -

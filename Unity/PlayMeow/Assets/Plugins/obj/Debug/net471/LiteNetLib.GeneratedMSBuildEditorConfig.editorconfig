@@ -1,0 +1,7 @@
+is_global = true
+build_property.EnableAotAnalyzer = false
+build_property.EnableSingleFileAnalyzer = false
+build_property.EnableTrimAnalyzer = true
+build_property.IncludeAllContentForSelfExtract = 
+build_property.RootNamespace = LiteNetLib
+build_property.ProjectDir = C:\Users\miles\Documents\GitHub\PlayMeow\Unity\PlayMeow\Assets\Plugins\

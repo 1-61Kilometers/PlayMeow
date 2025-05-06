@@ -578,4 +578,4 @@ if __name__ == '__main__':
     
     # Start the Flask app
     logger.info(f"Starting web application on {host}:{port} (debug={debug})")
-    app.run(debug=debug, host=host, port=port)
+    app.run(debug=debug, host=host, port=8080)

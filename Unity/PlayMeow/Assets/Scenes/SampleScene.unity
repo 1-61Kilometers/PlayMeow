@@ -557,8 +557,8 @@ MonoBehaviour:
   tracker1Port: 8051
   tracker2Port: 8052
   localIP: 127.0.0.1
-  tracker1Object: {fileID: 1372446034}
-  tracker2Object: {fileID: 543450653684284289}
+  tracker1Object: {fileID: 543450653684284289}
+  tracker2Object: {fileID: 1372446034}
 --- !u!114 &301314358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2498,6 +2498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1372446034}
+  - component: {fileID: 1372446035}
   m_Layer: 0
   m_Name: TrackCat
   m_TagString: Untagged
@@ -2521,6 +2522,33 @@ Transform:
   - {fileID: 8925290158474728957}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -95.29, y: 0, z: 0}
+--- !u!54 &1372446035
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372446033}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1411551494
 GameObject:
   m_ObjectHideFlags: 0
@@ -3532,6 +3560,7 @@ GameObject:
   - component: {fileID: 1881641548}
   - component: {fileID: 1881641549}
   - component: {fileID: 1881641550}
+  - component: {fileID: 1881641551}
   m_Layer: 0
   m_Name: LaserPointer
   m_TagString: Untagged
@@ -3621,12 +3650,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1881641539}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071067, y: -0, z: -0, w: 0.7071069}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 49.999985, y: 50, z: 49.99999}
+  m_LocalRotation: {x: -0, y: 0.7389871, z: 0.67371964, w: 0}
+  m_LocalPosition: {x: -280, y: -1233.9993, z: -808.99976}
+  m_LocalScale: {x: 49.999985, y: 50, z: 50}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 8925290158474728957}
+  m_Father: {fileID: 543450653684284289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1881641545
 MonoBehaviour:
@@ -3713,6 +3742,33 @@ MonoBehaviour:
   loopPlayback: 0
   autoStartPlayback: 0
   debugMode: 1
+--- !u!114 &1881641551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881641539}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd40205c4952e304f9c8fcf21036dbf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  constrainToPlayArea: 1
+  playAreaBounds: {x: -1.68, y: 0.45, z: 0.34, w: 2.37}
+  catObject: {fileID: 1372446033}
+  enableAutoMovement: 0
+  pattern: 0
+  autoMoveSpeed: 1
+  enableDirectControl: 1
+  serverHost: 10.0.0.16
+  serverPort: 12345
+  updateInterval: 0.1
+  pingInterval: 2
+  onConnectionChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1951522140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4231,6 +4287,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8925290156899345229}
+  - {fileID: 1881641544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &644402631365811772
@@ -5859,7 +5916,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8904362610637201785}
-  - {fileID: 1881641544}
   m_Father: {fileID: 1372446034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &9101581161573642710
